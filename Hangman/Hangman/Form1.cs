@@ -22,6 +22,7 @@ namespace Hangman
 
             string word = "";
             List<Label> labels = new List<Label>();
+            int amount = 0;
 
             enum BodyParts
             {
@@ -43,15 +44,6 @@ namespace Hangman
                 g.DrawLine(p, new Point(130, 218), new Point(130, 5));
                 g.DrawLine(p, new Point(135, 5), new Point(65, 5));
                 g.DrawLine(p, new Point(60, 0), new Point(60, 50));
-                DrawBodyPart(BodyParts.Head);
-                DrawBodyPart(BodyParts.Left_Eye);
-                DrawBodyPart(BodyParts.Right_Eye);
-                DrawBodyPart(BodyParts.Mouth);
-                DrawBodyPart(BodyParts.Body);
-                DrawBodyPart(BodyParts.Left_Arm);
-                DrawBodyPart(BodyParts.Right_Arm);
-                DrawBodyPart(BodyParts.Right_Leg);
-                DrawBodyPart(BodyParts.Left_Leg);
             }
 
             void DrawBodyPart(BodyParts bp)
@@ -142,8 +134,7 @@ namespace Hangman
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            char letter = textBox1.Text.ToCharArray()[0];
-            letter = Char.ToUpper(letter);
+            char letter = textBox1.Text.ToUpper().ToCharArray()[0];
             if (!char.IsLetter(letter))
             {
                 MessageBox.Show("You can only submit letters!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -158,6 +149,17 @@ namespace Hangman
                     {
                         labels[i].Text = letter.ToString();
                     }
+                }
+            }
+            else
+            {
+                MessageBox.Show("The letter that you guessed isn't in the word!");
+                label2.Text += " " + letter.ToString() + ",";
+                DrawBodyPart((BodyParts) amount);
+                amount++;
+                if (amount == 8)
+                {
+                    MessageBox.Show("Sorry but you lost!");
                 }
             }
         }
