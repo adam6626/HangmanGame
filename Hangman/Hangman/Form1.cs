@@ -52,8 +52,6 @@ namespace Hangman
                 DrawBodyPart(BodyParts.Right_Arm);
                 DrawBodyPart(BodyParts.Right_Leg);
                 DrawBodyPart(BodyParts.Left_Leg);
-                MakeLabels();
-                MessageBox.Show(word);
             }
 
             void DrawBodyPart(BodyParts bp)
@@ -89,6 +87,8 @@ namespace Hangman
         private void panel1_Paint_1(object sender, PaintEventArgs e)
         {
             DrawHangPost();
+            MakeLabels();
+            MessageBox.Show(word);
         }
 
         void MakeLabels()
@@ -140,15 +140,27 @@ namespace Hangman
                 return randomCapital;
             }
 
-            private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            char letter = textBox1.Text.ToCharArray()[0];
+            letter = Char.ToUpper(letter);
+            if (!char.IsLetter(letter))
             {
-                char letter = textBox1.Text.ToCharArray()[0];
-                if (!char.IsLetter(letter))
+                MessageBox.Show("You can only submit letters!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if(word.Contains(letter))
+            {
+                char[] letters = word.ToCharArray();
+                for (int i = 0; i < letters.Length; i++)
                 {
-                    MessageBox.Show("You can only submit letters!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    if (letters[i] == letter)
+                    {
+                        labels[i].Text = letter.ToString();
+                    }
                 }
             }
+        }
     }
  }
 
