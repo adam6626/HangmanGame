@@ -30,9 +30,9 @@ namespace Hangman
                 Left_Eye,
                 Right_Eye,
                 Mouth,
+                Body,
                 Right_Arm,
                 Left_Arm,
-                Body,
                 Right_Leg,
                 Left_Leg
             }
@@ -146,10 +146,12 @@ namespace Hangman
                 for (int i = 0; i < letters.Length; i++)
                 {
                     if (letters[i] == letter)
-                    {
                         labels[i].Text = letter.ToString();
-                    }
                 }
+                foreach (Label l in labels)
+                    if (l.Text == "_") return;
+                MessageBox.Show("You have won!", "Congrats");
+                ResetGame();
             }
             else
             {
@@ -157,9 +159,41 @@ namespace Hangman
                 label2.Text += " " + letter.ToString() + ",";
                 DrawBodyPart((BodyParts) amount);
                 amount++;
-                if (amount == 8)
+                if (amount == 9)
                 {
-                    MessageBox.Show("Sorry but you lost!");
+                    MessageBox.Show("Sorry but you lost! The word was " + word);
+                    ResetGame();
+                }
+            }
+        }
+
+        void ResetGame()
+        {
+            Graphics g = panel1.CreateGraphics();
+            g.Clear(panel1.BackColor);
+            GetRandomWord();
+            MakeLabels();
+            DrawHangPost();
+            label2.Text = "Missed: ";
+            textBox1.Text = "";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (textBox2.Text.ToUpper() == word)
+            {
+                MessageBox.Show("You have won!", "Congrats");
+                ResetGame();
+            }
+            else
+            {
+                MessageBox.Show("The word that you guessed is wrong!", "Sorry");
+                DrawBodyPart((BodyParts)amount);
+                amount++;
+                if (amount == 9)
+                {
+                    MessageBox.Show("Sorry but you lost! The word was " + word);
+                    ResetGame();
                 }
             }
         }
