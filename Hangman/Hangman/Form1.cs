@@ -21,6 +21,7 @@ namespace Hangman
             }
 
             string word = "";
+            string country = "";
             List<Label> labels = new List<Label>();
             int amount = 0;
 
@@ -107,7 +108,6 @@ namespace Hangman
                 int countryIdx = 0;
                 int capitalIdx = 1;
                 string randomCapital = "";
-                string countryHint = "";
 
                 Random rnd = new Random();
                 List<string> capitals = new List<string>();
@@ -125,7 +125,7 @@ namespace Hangman
                         {
                             int index = rnd.Next(capitals.Count);
                             randomCapital = capitals[index].ToUpper();
-                            countryHint = countries[index].ToUpper();
+                            country = countries[index].ToUpper();
                         }
                     }
                 }
@@ -159,7 +159,11 @@ namespace Hangman
                 label2.Text += " " + letter.ToString() + ",";
                 DrawBodyPart((BodyParts) amount);
                 amount++;
-                if (amount == 9)
+                if (amount == 8)
+                {
+                    MessageBox.Show("Password is a capital city of " + country);
+                }
+                else if (amount == 9)
                 {
                     MessageBox.Show("Sorry but you lost! The word was " + word);
                     ResetGame();
